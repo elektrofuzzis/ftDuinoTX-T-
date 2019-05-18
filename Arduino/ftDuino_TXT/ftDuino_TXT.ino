@@ -6,6 +6,7 @@
 // ftpi@gmx.de
 //
 // V0.0.2 refactoring, implementation of all Ftduino-cmds
+// V1.20 2019-05-18 don't wait on serial during bootup
 
 #include <Wire.h>
 #include <Ftduino.h>
@@ -61,7 +62,6 @@ void setup() {
   Wire.onRequest(receiveRequest);
 
   // register serial debugging
-  while(!Serial);
   Serial.begin( MySerialBaudRate );
 
   // initialize ftduino
@@ -72,7 +72,7 @@ void setup() {
   Serial.println("------------------------------------------------------------------------------");
   Serial.println("ftDuino_TXT" );
   Serial.println("RoboPro interface to run a ftDuino as I2C Slave device on an TX(T) controller.");
-  Serial.println("Version 1.10");
+  Serial.println("Version 1.20");
   Serial.println("(C) 2018 Christian Bergschneider & Stefan Fuss");
   Serial.println("------------------------------------------------------------------------------");
   Serial.println("");
@@ -409,4 +409,3 @@ void loop() {
   }
 
 }
-

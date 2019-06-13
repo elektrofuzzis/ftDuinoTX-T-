@@ -7,6 +7,8 @@
 //
 // V0.0.2 refactoring, implementation of all Ftduino-cmds
 // V1.20 2019-05-18 don't wait on serial during bootup
+// V1.21 2019-06-13 return always two bytes - the robopro interface wants always two bytes
+//                  effected cmds: CMD_motor_counter_active
 
 #include <Wire.h>
 #include <Ftduino.h>
@@ -72,7 +74,7 @@ void setup() {
   Serial.println("------------------------------------------------------------------------------");
   Serial.println("ftDuino_TXT" );
   Serial.println("RoboPro interface to run a ftDuino as I2C Slave device on an TX(T) controller.");
-  Serial.println("Version 1.20");
+  Serial.println("Version 1.21");
   Serial.println("(C) 2018 Christian Bergschneider & Stefan Fuss");
   Serial.println("------------------------------------------------------------------------------");
   Serial.println("");
@@ -179,9 +181,11 @@ void Process_motor_counter_active() {
   // process CMD_motor_counter_active
   // Return1 boolean
 
+  // bugfix return 2 bytes even if only one needed. The RoboPro interface expects always 2 bytes return value
   ReturnBuffer[0] = ftduino.motor_counter_active( CommandBuffer[1] );
+  ReturnBuffer[1] = 0;
   debugValue("Process_motor_counter_active(%i)=%i", CommandBuffer[1], Process_motor_counter_active );
-  ReturnBytes = 1;
+  ReturnBytes = 2;
   
 }
 
@@ -380,8 +384,10 @@ void receiveRequest(){
   digitalWrite(LED_BUILTIN, HIGH);
   if ( ReturnBytes <= 0 ) {
     // nothing to send available
+    // return always a 16 bit value
     ReturnBuffer[0] = 0;
-    ReturnBytes = 1;
+    ReturnBuffer[1] = 0;
+    ReturnBytes = 2;
     } 
     
   // send collected data

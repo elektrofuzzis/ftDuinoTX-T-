@@ -7,4 +7,4 @@ Driver to run a ftDuino as an extension board in RoboPro using i2C bus interface
 
 <hr width="100%" />
 
-Changelog: 05/2019 - The new version don't wait on a serial connection during bootup. So you can run the ftDuino without a PC connected to the USB bus.
+Changelog: 05/2019 - The new version doesn't wait on a serial connection during bootup. So you can run the ftDuino without a PC connected to the USB bus.
